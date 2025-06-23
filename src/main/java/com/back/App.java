@@ -12,7 +12,7 @@ public class App {
         System.out.println("== 명언 앱 ==");
 
        while (true){
-           System.out.println("명령) ");
+           System.out.print("명령) ");
            String cmd = scanner.nextLine();
            switch (cmd) {
                case "등록" -> {

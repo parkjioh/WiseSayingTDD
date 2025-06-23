@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         //lab1();
         //lab2();
+        new App(new Scanner(System.in)).run();
     }
 
     private static void lab1() {
