@@ -24,4 +24,15 @@ public class WiseSayingService {
     public List<WiseSaying> findforList() {
         return wiseSayingRepository.findforList();
     }
+
+    public boolean delete(int id) {
+        WiseSaying wiseSaying = wiseSayingRepository.findById(id);
+
+        if( wiseSaying == null )  return false;
+
+        wiseSayingRepository.delete(wiseSaying);
+        return true;
+    }
+
+
 }

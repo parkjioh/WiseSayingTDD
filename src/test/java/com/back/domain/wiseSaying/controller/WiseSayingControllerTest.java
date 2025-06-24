@@ -76,7 +76,7 @@ public class WiseSayingControllerTest {
     @Test
     @DisplayName("삭제")
     void t5() {
-        String rs = AppTestRunner.run("""
+         String rs = AppTestRunner.run("""
                 등록
                 현재를 사랑하라.
                 작가미상
@@ -89,7 +89,7 @@ public class WiseSayingControllerTest {
 
         assertThat(rs)
                 .contains("1번 명언이 삭제되었습니다.")
-                .contains("2 / 작자미상 / 과거에 집착하지 마라.")
-                .doesNotContain("1 / 작자미상 / 현재를 사랑하라.");
+                .contains("2 / 작가미상 / 과거에 집착하지 마라.")
+                .doesNotContain("1 / 작가미상 / 현재를 사랑하라.");
     }
 }
