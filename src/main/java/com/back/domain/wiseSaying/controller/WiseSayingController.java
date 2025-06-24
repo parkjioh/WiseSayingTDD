@@ -55,6 +55,12 @@ public class WiseSayingController {
         String idStr = params.getOrDefault("id","");
         int id = Integer.parseInt(idStr);
 
+        boolean deleted = wiseSayingService.delete(id);
+
+        if(deleted == false ){
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
         wiseSayingService.delete(id);
 
         System.out.printf("%d번 명언이 삭제되었습니다. \n", id);
