@@ -1,5 +1,6 @@
 package com.back;
 
+import com.back.domain.AppContext;
 import com.back.standard.util.TestUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -10,7 +11,8 @@ public class AppTestRunner {
          Scanner scanner = TestUtil.genScanner(input + "\n종료");
 
          ByteArrayOutputStream output = TestUtil.setOutToByteArray();
-         new App(scanner).run();
+         AppContext.renew(scanner);
+         new App().run();
 
          return output.toString();
      }
