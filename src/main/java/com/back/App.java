@@ -1,6 +1,7 @@
 package com.back;
 
 import com.back.domain.AppContext;
+import com.back.domain.global.Rq;
 import com.back.domain.system.controller.SystemController;
 import com.back.domain.wiseSaying.controller.WiseSayingController;
 
@@ -23,13 +24,13 @@ public class App {
            System.out.print("명령) ");
            String cmd = scanner.nextLine();
 
-           String actionName = cmd.split("\\?", 2)[0];
+           Rq rq = new Rq(cmd);
 
-           switch (actionName) {
+           switch (rq.getActionName()) {
                case "등록" ->  wiseSayingController.actionWrite();
                case "목록" ->  wiseSayingController.actionList();
-               case "삭제" ->  wiseSayingController.actionDelete(cmd);
-               case "수정" ->  wiseSayingController.actionModify(cmd);
+               case "삭제" ->  wiseSayingController.actionDelete(rq);
+               case "수정" ->  wiseSayingController.actionModify(rq);
                case "종료" -> {
                    systemController.actionExit();
                    return;
