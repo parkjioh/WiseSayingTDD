@@ -169,4 +169,22 @@ public class WiseSayingControllerTest {
                 .contains("1 / 작가미상 / 현재를 사랑하라.");
     }
 
+    @Test
+    @DisplayName("목록?keyword=이순신")
+    void t10() {
+        String rs = AppTestRunner.run("""
+                등록
+                나의 죽음을 적들에게 알리지 말라.
+                이순신
+                등록
+                진정한 해전의 왕은 이순신이다.
+                넬슨제독
+                목록?keyword=이순신
+                """);
+
+        assertThat(rs)
+                .contains("2 / 이순신 / 나의 죽음을 적들에게 알리지 말라.")
+                .contains("1 / 넬슨제독 /  진정한 해전의 왕은 이순신이다.");
+    }
+
 }
