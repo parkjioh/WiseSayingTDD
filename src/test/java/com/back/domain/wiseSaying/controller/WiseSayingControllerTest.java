@@ -151,4 +151,22 @@ public class WiseSayingControllerTest {
                 .contains("2 / 작가미상 / 과거에 집착하지 마라.")
                 .doesNotContain("1 / 작가미상 / 현재를 사랑하라.");
     }
+
+    @Test
+    @DisplayName("목록?keywordType=author&keyword=작가")
+    void t9() {
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작가미상
+                등록
+                과거에 집착하지 마라.
+                작가미상
+                목록?keywordType=author&keyword=작가
+                """);
+
+        assertThat(rs)
+                .contains("2 / 작가미상 / 과거에 집착하지 마라.")
+                .contains("1 / 작가미상 / 현재를 사랑하라.");
+    }
 }

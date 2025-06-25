@@ -21,8 +21,12 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findforList() {
-        return wiseSayingRepository.findforList();
+    public List<WiseSaying> findforList(String keywordType, String keyword) {
+        if (keyword.isBlank()) return wiseSayingRepository.findforList();
+        return switch (keywordType) {
+            case "content" -> wiseSayingRepository.findforListByCotentContaining(keyword);
+            default -> throw new IllegalStateException("Unexpected value: " + keywordType);
+        }   ;
     }
 
     public boolean delete(int id) {

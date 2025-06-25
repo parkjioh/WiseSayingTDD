@@ -33,7 +33,7 @@ public class Rq {
         }
     }
 
-    private String getParam(String name, String defaultValue) {
+    public String getParam(String name, String defaultValue) {
         return params.getOrDefault(name,defaultValue);
     }
 
