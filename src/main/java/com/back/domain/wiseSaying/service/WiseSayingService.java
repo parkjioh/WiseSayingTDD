@@ -21,12 +21,12 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findforList(String keywordType, String keyword) {
-        if (keyword.isBlank()) return wiseSayingRepository.findforList();
+    public List<WiseSaying> findforList(String keywordType, String keyword, int pageSize, int pageNo) {
+        if (keyword.isBlank()) return wiseSayingRepository.findforList(pageSize, pageNo);
         return switch (keywordType) {
-            case "content" -> wiseSayingRepository.findforListByCotentContaining(keyword);
-            case "author" -> wiseSayingRepository.findforListByAuthorContaining(keyword);
-            default -> wiseSayingRepository.findforListByCotentContainingOrAuthorContaining(keyword,keyword);
+            case "content" -> wiseSayingRepository.findforListByCotentContaining(keyword,pageSize, pageNo);
+            case "author" -> wiseSayingRepository.findforListByAuthorContaining(keyword, pageSize, pageNo);
+            default -> wiseSayingRepository.findforListByCotentContainingOrAuthorContaining(keyword,keyword, pageSize, pageNo);
         }   ;
     }
 

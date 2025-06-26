@@ -22,7 +22,7 @@ public class WiseSayingRepository {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findforList() {
+    public List<WiseSaying> findforList(int pageSize, int pageNo) {
         return wiseSayings.reversed();
     }
 
@@ -46,21 +46,21 @@ public class WiseSayingRepository {
         wiseSayings.remove(wiseSaying);
     }
 
-    public List<WiseSaying> findforListByCotentContaining(String keyword) {
+    public List<WiseSaying> findforListByCotentContaining(String keyword,int pageSize, int pageNo) {
         return wiseSayings
                 .stream()
                 .filter(w->w.getContent().contains(keyword))
                 .collect(Collectors.toList()).reversed();
     }
 
-    public List<WiseSaying> findforListByAuthorContaining(String keyword) {
+    public List<WiseSaying> findforListByAuthorContaining(String keyword, int pageSize, int pageNo) {
         return wiseSayings
                 .stream()
                 .filter(w->w.getAuthor().contains(keyword))
                 .collect(Collectors.toList()).reversed();
     }
 
-    public List<WiseSaying> findforListByCotentContainingOrAuthorContaining(String keyword1, String keyword2) {
+    public List<WiseSaying> findforListByCotentContainingOrAuthorContaining(String keyword1, String keyword2, int pageSize, int pageNo) {
         return wiseSayings
                 .stream()
                 .filter(w-> w.getContent().contains(keyword1) || w.getAuthor().contains(keyword2))
