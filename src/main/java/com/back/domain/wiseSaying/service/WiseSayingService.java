@@ -3,9 +3,8 @@ package com.back.domain.wiseSaying.service;
 import com.back.AppContext;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.repository.WiseSayingRepository;
+import com.back.standard.dto.Page;
 import com.back.standard.dto.Pageable;
-
-import java.util.List;
 
 public class WiseSayingService {
     private final WiseSayingRepository wiseSayingRepository ;
@@ -22,7 +21,7 @@ public class WiseSayingService {
         return wiseSaying;
     }
 
-    public List<WiseSaying> findforList(String keywordType, String keyword, Pageable pageable) {
+    public Page<WiseSaying> findforList(String keywordType, String keyword, Pageable pageable) {
         if (keyword.isBlank()) return wiseSayingRepository.findforList(pageable);
         return switch (keywordType) {
             case "content" -> wiseSayingRepository.findforListByCotentContaining(keyword,pageable);
