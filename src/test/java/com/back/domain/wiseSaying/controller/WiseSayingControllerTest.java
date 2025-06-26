@@ -218,8 +218,6 @@ public class WiseSayingControllerTest {
 
     }
 
-
-
     @Test
     @DisplayName("목록?page=2")
     void t12() {
@@ -241,4 +239,45 @@ public class WiseSayingControllerTest {
 
     }
 
+    @Test
+    @DisplayName("목록?keyword=명언")
+    void t13() {
+        String rs = AppTestRunner.run(
+                makeSampleDataCommand() + "\n목록?keyword=명언"
+        );
+
+        assertThat(rs)
+                .contains("10 / 작가미상 10 / 명언 10")
+                .contains("9 / 작가미상 9 / 명언 9")
+                .contains("8 / 작가미상 8 / 명언 8")
+                .contains("7 / 작가미상 7 / 명언 7")
+                .contains("6 / 작가미상 6 / 명언 6")
+                .doesNotContain("5 / 작가미상 5 / 명언 5")
+                .doesNotContain("4 / 작가미상 4 / 명언 4")
+                .doesNotContain("3 / 작가미상 3 / 명언 3")
+                .doesNotContain("2 / 작가미상 2 / 명언 2")
+                .doesNotContain("1 / 작가미상 1 / 명언 1");
+
+    }
+
+    @Test
+    @DisplayName("목록?keyword=명언&page=2")
+    void t14() {
+        String rs = AppTestRunner.run(
+                makeSampleDataCommand() + "\n목록?keyword=명언&page=2"
+        );
+
+        assertThat(rs)
+                .doesNotContain("10 / 작가미상 10 / 명언 10")
+                .doesNotContain("9 / 작가미상 9 / 명언 9")
+                .doesNotContain("8 / 작가미상 8 / 명언 8")
+                .doesNotContain("7 / 작가미상 7 / 명언 7")
+                .doesNotContain("6 / 작가미상 6 / 명언 6")
+                .contains("5 / 작가미상 5 / 명언 5")
+                .contains("4 / 작가미상 4 / 명언 4")
+                .contains("3 / 작가미상 3 / 명언 3")
+                .contains("2 / 작가미상 2 / 명언 2")
+                .contains("1 / 작가미상 1 / 명언 1");
+
+    }
 }
