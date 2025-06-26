@@ -190,12 +190,18 @@ public class WiseSayingControllerTest {
                 .contains("1 / 이순신 / 나의 죽음을 적들에게 알리지 말라.");
 
     }
+    private String makeSampleDataCommand() {
+        return IntStream
+                .rangeClosed(1,10)
+                .mapToObj(id ->"등록\n명언 %d\n작가미상 %d".formatted(id,id))
+                .collect(Collectors.joining("\n"));
+    }
 
     @Test
     @DisplayName("목록 : 한 페이지에 최대 5개만 노출된다.")
     void t11() {
         String rs = AppTestRunner.run(
-               makeSampleDataAndListCommand()
+                makeSampleDataCommand() + "\n목록"
         );
 
         assertThat(rs)
@@ -212,18 +218,13 @@ public class WiseSayingControllerTest {
 
     }
 
-    private String makeSampleDataAndListCommand() {
-        return IntStream
-                .rangeClosed(1,10)
-                .mapToObj(id ->"등록\n명언 %d\n작가미상 %d".formatted(id,id))
-                .collect(Collectors.joining("\n")) + "\n목록";
-    }
+
 
     @Test
     @DisplayName("목록?page=2")
     void t12() {
         String rs = AppTestRunner.run(
-                makeSampleDataAndListCommand()
+                makeSampleDataCommand() + "\n목록?page=2"
         );
 
         assertThat(rs)
