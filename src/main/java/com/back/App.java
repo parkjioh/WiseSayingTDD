@@ -1,7 +1,6 @@
 package com.back;
 
-import com.back.domain.AppContext;
-import com.back.domain.global.Rq;
+import com.back.global.Rq;
 import com.back.domain.system.controller.SystemController;
 import com.back.domain.wiseSaying.controller.WiseSayingController;
 

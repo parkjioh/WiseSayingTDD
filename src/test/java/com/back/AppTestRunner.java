@@ -1,6 +1,5 @@
 package com.back;
 
-import com.back.domain.AppContext;
 import com.back.standard.util.TestUtil;
 
 import java.io.ByteArrayOutputStream;

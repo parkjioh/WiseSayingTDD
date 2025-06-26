@@ -1,9 +1,10 @@
 package com.back.domain.wiseSaying.controller;
 
-import com.back.domain.AppContext;
-import com.back.domain.global.Rq;
+import com.back.AppContext;
+import com.back.global.Rq;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.service.WiseSayingService;
+import com.back.standard.dto.Pageable;
 
 import java.util.Scanner;
 
@@ -40,11 +41,11 @@ public class WiseSayingController {
         int pageSize = rq.getParamAsInt("pageSize",5);
         int pageNo = rq.getParamAsInt("page",1);
 
-
+        Pageable pageable = new Pageable(pageNo,pageSize);
 
         String keywordType=rq.getParam("keywordType","all");
         String keyword = rq.getParam("keyword","");
-        for (WiseSaying wiseSaying : wiseSayingService.findforList(keywordType,keyword, pageSize, pageNo)) {
+        for (WiseSaying wiseSaying : wiseSayingService.findforList(keywordType,keyword, pageable)) {
             System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent());
         }
     }

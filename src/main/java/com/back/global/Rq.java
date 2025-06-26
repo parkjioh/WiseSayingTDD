@@ -1,4 +1,4 @@
-package com.back.domain.global;
+package com.back.global;
 
 import java.util.Arrays;
 import java.util.Map;

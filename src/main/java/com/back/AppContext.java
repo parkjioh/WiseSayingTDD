@@ -1,4 +1,4 @@
-package com.back.domain;
+package com.back;
 
 import com.back.domain.system.controller.SystemController;
 import com.back.domain.wiseSaying.controller.WiseSayingController;
