@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         //lab1();
         //lab2();
-
+        AppContext.renew();
         new App().run();
     }
 

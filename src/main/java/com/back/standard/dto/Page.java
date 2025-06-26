@@ -15,4 +15,9 @@ public class Page<T> {
     private final int pageNo;
     private final int pageSize;
     private final List<T> content;
+
+    public int getTotalPages(){
+       return (int) Math.ceil((double) totalCount / pageSize);
+    }
+
 }
