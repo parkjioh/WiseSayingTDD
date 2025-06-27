@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Util {
+    public static file.json json;
+
     public static class file {
 
         // 유틸리티 메서드들
