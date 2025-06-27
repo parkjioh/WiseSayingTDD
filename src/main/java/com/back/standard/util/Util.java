@@ -6,6 +6,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 public class Util {
     public static class file {
+
         // 유틸리티 메서드들
         private static Path getPath(String filePath) {
             return Paths.get(filePath);
@@ -69,6 +70,26 @@ public class Util {
             } catch (IOException e) {
                 return false;
             }
+        }
+
+        public static String get(String filePath, String defaultValue) {
+            try {
+                return Files.readString(getPath(filePath));
+            } catch (IOException e) {
+                return defaultValue;
+            }
+        }
+
+        public static void mkdir(String dirPath) {
+            try {
+                Files.createDirectories(getPath(dirPath));
+            } catch (IOException e) {
+                throw new RuntimeException("디렉토리 생성 실패: " + dirPath, e);
+            }
+        }
+
+        public static boolean rmdir(String dirPath) {
+            return delete(dirPath);
         }
     }
 }
