@@ -34,6 +34,10 @@ public class Util {
             }
         }
 
+        public static void set(String filePath, int content) {
+          set(filePath, String.valueOf(content));
+        }
+
         private static void writeFile(Path path, String content) throws IOException {
             Files.writeString(path, content,
                     StandardOpenOption.CREATE,
@@ -51,6 +55,17 @@ public class Util {
                 }
             } else {
                 throw new RuntimeException("파일 접근 실패: " + path, e);
+            }
+        }
+
+        public static int getAsInt(String filePath, int defaultValue) {
+            String value = get(filePath, "");
+            if(value.isBlank()) return defaultValue;
+
+            try {
+                return  Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                return defaultValue;
             }
         }
 

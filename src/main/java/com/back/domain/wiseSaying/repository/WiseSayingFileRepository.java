@@ -8,12 +8,22 @@ import java.util.Map;
 public class WiseSayingFileRepository {
     public void save(WiseSaying wiseSaying) {
         if (wiseSaying.isNew()){
-            wiseSaying.setId(1);
-
+            int newId = getLastId() + 1;
+            wiseSaying.setId(newId);
+            setLastId(newId);
         }
         Map<String,Object> wiseSayingMap = wiseSaying.toMap();
         String wiseSayingJsonStr = Util.json.toString(wiseSayingMap);
-        Util.file.set("db/wiseSaying/1.json", wiseSayingJsonStr);
+        Util.file.set("db/wiseSaying/%d.json".formatted(wiseSaying.getId()), wiseSayingJsonStr);
+    }
+
+    private void setLastId(int newId) {
+        Util.file.set("db/wiseSaying/lastId.txt", newId);
+    }
+
+
+    private int getLastId() {
+        return Util.file.getAsInt("db/wiseSaying/lastId.txt",0);
     }
 
     public WiseSaying findById(int id) {
