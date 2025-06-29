@@ -32,4 +32,8 @@ public class WiseSayingFileRepository {
         WiseSaying wiseSaying = new WiseSaying(wiseSayingMap);
         return wiseSaying;
     }
+
+    public boolean delete(WiseSaying wiseSaying) {
+        return false;
+    }
 }
