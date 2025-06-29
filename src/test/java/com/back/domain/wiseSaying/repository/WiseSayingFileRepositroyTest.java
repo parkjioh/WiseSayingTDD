@@ -24,7 +24,7 @@ public class WiseSayingFileRepositroyTest {
 
     @BeforeEach
     void beforeEach() {
-        Util.file.mkdir("db/wiseSaying");
+        Util.file.rmdir("db/wiseSaying");
     }
 
     @Test

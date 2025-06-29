@@ -28,12 +28,15 @@ public class WiseSayingFileRepository {
 
     public WiseSaying findById(int id) {
         String wiseSayingJsonStr = Util.file.get("db/wiseSaying/%d.json".formatted(id),"");
+
+        if(wiseSayingJsonStr.isBlank()) return null;
+
         Map<String,Object> wiseSayingMap = Util.json.toMap(wiseSayingJsonStr);
-        WiseSaying wiseSaying = new WiseSaying(wiseSayingMap);
-        return wiseSaying;
+        return new WiseSaying(wiseSayingMap);
     }
 
     public boolean delete(WiseSaying wiseSaying) {
-        return false;
+        String filePath ="db/wiseSaying/%d.json".formatted(wiseSaying.getId());
+        return Util.file.delete(filePath);
     }
 }
