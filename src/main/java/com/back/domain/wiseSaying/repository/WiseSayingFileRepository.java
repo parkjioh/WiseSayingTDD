@@ -66,8 +66,14 @@ public class WiseSayingFileRepository {
     }
 
     public Page<WiseSaying> findForList(Pageable pageable) {
-        List<WiseSaying> content = findAll();
-        int totalCount = content.size();
+        List<WiseSaying> filtered = findAll();
+        int totalCount = filtered.size();
+
+        List<WiseSaying> content = filtered
+                .stream()
+                .skip(pageable.getSkipCount())
+                .limit(pageable.getPageSize())
+                .toList();
 
         return new Page<>(
                 totalCount,
@@ -78,8 +84,14 @@ public class WiseSayingFileRepository {
     }
 
     public Page<WiseSaying> findForListByContentContaining(String keyword, Pageable pageable) {
-        List<WiseSaying> content = findByContentContaining(keyword);
-        int totalCount = content.size();
+        List<WiseSaying> filtered = findByContentContaining(keyword);
+        int totalCount = filtered.size();
+
+        List<WiseSaying> content = filtered
+                .stream()
+                .skip(pageable.getSkipCount())
+                .limit(pageable.getPageSize())
+                .toList();
 
         return new Page<>(
                 totalCount,
