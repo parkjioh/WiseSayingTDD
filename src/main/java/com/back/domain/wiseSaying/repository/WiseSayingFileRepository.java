@@ -5,6 +5,7 @@ import com.back.standard.dto.Page;
 import com.back.standard.dto.Pageable;
 import com.back.standard.util.Util;
 
+import java.net.ContentHandler;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -114,5 +115,9 @@ public class WiseSayingFileRepository {
                 .map(path -> Util.file.get(path.toString(), ""))
                 .map(Util.file.json::toMap)
                 .map(WiseSaying::new);
+    }
+
+    public Page<WiseSaying> findForListByAuthorContaining(String keyword, Pageable pageable) {
+
     }
 }
