@@ -80,7 +80,9 @@ public class WiseSayingFileRepositroyTest {
         wiseSayingFileRepository.save(wiseSaying2);
 
 
-        assertThat(wiseSayingFileRepository.findForList(new Pageab.get()).containsExactly(wiseSaying2,wiseSaying1);
+        assertThat(
+                wiseSayingFileRepository.findForList(new Pageable(1,5)).getContent()
+        ).containsExactly(wiseSaying2,wiseSaying1);
     }
 
 
