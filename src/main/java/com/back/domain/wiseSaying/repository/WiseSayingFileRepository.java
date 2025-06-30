@@ -5,7 +5,6 @@ import com.back.standard.dto.Page;
 import com.back.standard.dto.Pageable;
 import com.back.standard.util.Util;
 
-import java.net.ContentHandler;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +76,11 @@ public class WiseSayingFileRepository {
         return createPage(filtered, pageable);
     }
 
+    public Page<WiseSaying> findForListByAuthorContaining(String keyword, Pageable pageable) {
+        List<WiseSaying> filtered = findByAuthorContaining(keyword);
+        return createPage(filtered, pageable);
+    }
+
     private Page<WiseSaying> createPage(List<WiseSaying> wiseSayings, Pageable pageable) {
         int totalCount = wiseSayings.size();
 
@@ -107,6 +111,13 @@ public class WiseSayingFileRepository {
                 .toList();
     }
 
+    private List<WiseSaying> findByAuthorContaining(String keyword) {
+        return loadAllWiseSayings()
+                .filter(w -> w.getAuthor().contains(keyword))
+                .sorted(Comparator.comparingInt(WiseSaying::getId).reversed())
+                .toList();
+    }
+
     private Stream<WiseSaying> loadAllWiseSayings() {
         return Util.file.walkRegularFiles(
                         getTableDirPath(),
@@ -117,7 +128,5 @@ public class WiseSayingFileRepository {
                 .map(WiseSaying::new);
     }
 
-    public Page<WiseSaying> findForListByAuthorContaining(String keyword, Pageable pageable) {
 
-    }
 }
