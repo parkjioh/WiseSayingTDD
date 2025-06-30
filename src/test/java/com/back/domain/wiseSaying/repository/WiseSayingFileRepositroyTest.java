@@ -81,7 +81,7 @@ public class WiseSayingFileRepositroyTest {
 
 
         assertThat(
-                wiseSayingFileRepository.findForList(new Pageable(1,5)).getContent()
+                wiseSayingFileRepository.findforList(new Pageable(1,5)).getContent()
         ).containsExactly(wiseSaying2,wiseSaying1);
     }
 
@@ -99,7 +99,7 @@ public class WiseSayingFileRepositroyTest {
 
 
         assertThat(
-                wiseSayingFileRepository.findForListByContentContaining("꿈",new Pageable(1,5)).getContent()
+                wiseSayingFileRepository.findforListByContentContaining("꿈",new Pageable(1,5)).getContent()
         ).containsExactly(wiseSaying3,wiseSaying1);
     }
 
@@ -120,7 +120,7 @@ public class WiseSayingFileRepositroyTest {
 
 
         assertThat(
-                wiseSayingFileRepository.findForListByAuthorContaining("아인슈타인",new Pageable(1,5)).getContent()
+                wiseSayingFileRepository.findforListByAuthorContaining("아인슈타인",new Pageable(1,5)).getContent()
         ).containsExactly(wiseSaying4,wiseSaying2);
     }
 
@@ -144,7 +144,7 @@ public class WiseSayingFileRepositroyTest {
 
 
         assertThat(
-                wiseSayingFileRepository.findForListByContentContainingOrAuthorContaining("상","상",new Pageable(1,5)).getContent()
+                wiseSayingFileRepository.findforListByContentContainingOrAuthorContaining("상","상",new Pageable(1,5)).getContent()
         ).containsExactly(wiseSaying5,wiseSaying3);
     }
 

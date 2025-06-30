@@ -26,9 +26,9 @@ public class WiseSayingService {
     public Page<WiseSaying> findforList(String keywordType, String keyword, Pageable pageable) {
         if (keyword.isBlank()) return wiseSayingRepository.findforList(pageable);
         return switch (keywordType) {
-            case "content" -> wiseSayingRepository.findforListByCotentContaining(keyword,pageable);
+            case "content" -> wiseSayingRepository.findforListByContentContaining(keyword,pageable);
             case "author" -> wiseSayingRepository.findforListByAuthorContaining(keyword, pageable);
-            default -> wiseSayingRepository.findforListByCotentContainingOrAuthorContaining(keyword,keyword, pageable);
+            default -> wiseSayingRepository.findforListByContentContainingOrAuthorContaining(keyword,keyword, pageable);
         }   ;
     }
 

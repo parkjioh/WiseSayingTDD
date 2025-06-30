@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class WiseSayingFileRepository {
+public class WiseSayingFileRepository implements WiseSayingRepository {
     public String getEntityFilePath(WiseSaying wiseSaying) {
         return getEntityFilePath(wiseSaying.getId());
     }
@@ -28,7 +28,7 @@ public class WiseSayingFileRepository {
         return getTableDirPath() + "/lastId.txt";
     }
 
-    public void save(WiseSaying wiseSaying) {
+    public WiseSaying save(WiseSaying wiseSaying) {
         if (wiseSaying.isNew()) {
             int newId = getLastId() + 1;
             wiseSaying.setId(newId);
@@ -38,6 +38,8 @@ public class WiseSayingFileRepository {
         Map<String, Object> wiseSayingMap = wiseSaying.toMap();
         String wiseSayingJsonStr = Util.file.json.toString(wiseSayingMap);
         Util.file.set(getEntityFilePath(wiseSaying), wiseSayingJsonStr);
+
+        return wiseSaying;
     }
 
     private void setLastId(int newId) {
@@ -66,23 +68,23 @@ public class WiseSayingFileRepository {
         Util.file.rmdir(getTableDirPath());
     }
 
-    public Page<WiseSaying> findForList(Pageable pageable) {
+    public Page<WiseSaying> findforList(Pageable pageable) {
         List<WiseSaying> filtered = findAll();
         return createPage(filtered, pageable);
     }
 
-    public Page<WiseSaying> findForListByContentContaining(String keyword, Pageable pageable) {
+    public Page<WiseSaying> findforListByContentContaining(String keyword, Pageable pageable) {
         List<WiseSaying> filtered = findByContentContaining(keyword);
         return createPage(filtered, pageable);
     }
 
-    public Page<WiseSaying> findForListByAuthorContaining(String keyword, Pageable pageable) {
+    public Page<WiseSaying> findforListByAuthorContaining(String keyword, Pageable pageable) {
         List<WiseSaying> filtered = findByAuthorContaining(keyword);
         return createPage(filtered, pageable);
     }
 
-    public Page<WiseSaying> findForListByContentContainingOrAuthorContaining(String keyword1, String keyword2, Pageable pageable) {
-        List<WiseSaying> filtered = findByContentContainingOrAuthorContaining(keyword1,keyword2);
+    public Page<WiseSaying> findforListByContentContainingOrAuthorContaining(String keyword1, String keyword2, Pageable pageable) {
+        List<WiseSaying> filtered = findByContentContainingOrAuthorContaining(keyword1, keyword2);
         return createPage(filtered, pageable);
     }
 
@@ -139,7 +141,4 @@ public class WiseSayingFileRepository {
                 .map(Util.file.json::toMap)
                 .map(WiseSaying::new);
     }
-
-
-
 }

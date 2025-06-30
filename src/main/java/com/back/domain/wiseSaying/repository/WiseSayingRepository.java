@@ -4,109 +4,20 @@ import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.standard.dto.Page;
 import com.back.standard.dto.Pageable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
-public class WiseSayingRepository {
-    private final List<WiseSaying> wiseSayings = new ArrayList<>();
-    private int lastId = 0;
+public interface WiseSayingRepository {
+    WiseSaying save(WiseSaying wiseSaying);
 
-    public WiseSaying save(WiseSaying wiseSaying) {
-        if (wiseSaying.isNew()){
-            wiseSaying.setId(++lastId);
-            wiseSayings.add(wiseSaying);
-        }
+    Optional<WiseSaying> findById(int id);
 
+    boolean delete(WiseSaying wiseSaying);
 
+    Page<WiseSaying> findforList(Pageable pageable);
 
-        return wiseSaying;
-    }
+    Page<WiseSaying> findforListByContentContaining(String keyword, Pageable pageable);
 
-    public Page<WiseSaying> findforList(Pageable pageable) {
-        int totalCount = wiseSayings.size();
-        List<WiseSaying> content = wiseSayings
-                .reversed()
-                .stream()
-                .skip(pageable.getSkipCount())
-                .limit(pageable.getPageSize())
-                .toList();
+    Page<WiseSaying> findforListByAuthorContaining(String keyword, Pageable pageable);
 
-        return new Page<>(totalCount, pageable.getPageNo(), pageable.getPageSize(), content);
-    }
-
-    public int findIndexById(int id) {
-        return IntStream
-                .range(0, wiseSayings.size())
-                .filter(index -> wiseSayings.get(index).getId() == id)
-                .findFirst()
-                .orElse(-1);
-    }
-
-    public Optional<WiseSaying> findById(int id) {
-        int index =  findIndexById(id);
-
-        if(index == -1 ) return Optional.empty();
-
-        return Optional.of(wiseSayings.get(index));
-    }
-
-    public void delete(WiseSaying wiseSaying) {
-        wiseSayings.remove(wiseSaying);
-    }
-
-    public Page<WiseSaying> findforListByCotentContaining(String keyword,Pageable pageable) {
-        List<WiseSaying> filtered = wiseSayings
-                .reversed()
-                .stream()
-                .filter(w-> w.getContent().contains(keyword))
-                .toList();
-
-        int totalCount = filtered.size();
-
-        List<WiseSaying> content = filtered
-                .stream()
-                .skip(pageable.getSkipCount())
-                .limit(pageable.getPageSize())
-                .toList();
-
-        return new Page<>(totalCount, pageable.getPageNo(), pageable.getPageSize(), content);
-    }
-
-    public Page<WiseSaying> findforListByAuthorContaining(String keyword, Pageable pageable) {
-        List<WiseSaying> filtered = wiseSayings
-                .reversed()
-                .stream()
-                .filter(w-> w.getAuthor().contains(keyword))
-                .toList();
-
-        int totalCount = filtered.size();
-
-        List<WiseSaying> author = filtered
-                .stream()
-                .skip(pageable.getSkipCount())
-                .limit(pageable.getPageSize())
-                .toList();
-
-        return new Page<>(totalCount, pageable.getPageNo(), pageable.getPageSize(), author);
-    }
-
-    public Page<WiseSaying> findforListByCotentContainingOrAuthorContaining(String keyword1, String keyword2,Pageable pageable) {
-        List<WiseSaying> filtered = wiseSayings
-                .reversed()
-                .stream()
-                .filter(w-> w.getContent().contains(keyword1) || w.getAuthor().contains(keyword2))
-                .toList();
-
-        int totalCount = filtered.size();
-
-        List<WiseSaying> contain = filtered
-                .stream()
-                .skip(pageable.getSkipCount())
-                .limit(pageable.getPageSize())
-                .toList();
-
-        return new Page<>(totalCount, pageable.getPageNo(), pageable.getPageSize(), contain);
-    }
+    Page<WiseSaying> findforListByContentContainingOrAuthorContaining(String keyword1, String keyword2, Pageable pageable);
 }
