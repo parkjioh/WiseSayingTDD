@@ -5,6 +5,7 @@ import com.back.standard.dto.Page;
 import com.back.standard.dto.Pageable;
 import com.back.standard.util.Util;
 
+import java.net.ContentHandler;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +82,10 @@ public class WiseSayingFileRepository {
         return createPage(filtered, pageable);
     }
 
+    public ContentHandler findForListByContentContainingOrAuthorContaining(String keyword1, String keyword2, Pageable pageable) {
+        return null;
+    }
+
     private Page<WiseSaying> createPage(List<WiseSaying> wiseSayings, Pageable pageable) {
         int totalCount = wiseSayings.size();
 
@@ -127,6 +132,7 @@ public class WiseSayingFileRepository {
                 .map(Util.file.json::toMap)
                 .map(WiseSaying::new);
     }
+
 
 
 }
