@@ -101,7 +101,15 @@ public class WiseSayingFileRepository {
     }
 
     private List<WiseSaying> findByContentContaining(String keyword) {
-
+        return Util.file.walkRegularFiles(
+                        getTableDirPath(),
+                        "\\d+\\.json"
+                ).map(path -> Util.file.get(path.toString(), ""))
+                .map(Util.file.json::toMap)
+                .map(WiseSaying::new)
+                .filter(w->w.getContent().contains(keyword))
+                .sorted(Comparator.comparingInt(WiseSaying::getId).reversed())
+                .toList();
     }
 
 
