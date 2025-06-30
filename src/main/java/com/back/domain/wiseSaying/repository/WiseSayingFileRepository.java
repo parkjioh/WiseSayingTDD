@@ -9,18 +9,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class WiseSayingFileRepository {
+    public String getEntityFilePath(WiseSaying wiseSaying) {
+        return getEntityFilePath(wiseSaying.getId());
+    }
 
     public String getTableDirPath() {
         return "db/wiseSaying";
     }
 
-    public String getEntityFilePath(WiseSaying wiseSaying){
-        return getTableDirPath() + "/%d.json".formatted(wiseSaying.getId());
-    }
-
-    public String getEntityFilePath(int id){
+    public String getEntityFilePath(int id) {
         return getTableDirPath() + "/%d.json".formatted(id);
     }
 
@@ -28,32 +28,33 @@ public class WiseSayingFileRepository {
         return getTableDirPath() + "/lastId.txt";
     }
 
-    private void setLastId(int newId) {
-        Util.file.set(getLastIdFilePath(), newId);
-    }
-
-
-    private int getLastId() {
-        return Util.file.getAsInt(getLastIdFilePath(),0);
-    }
-
     public void save(WiseSaying wiseSaying) {
-        if (wiseSaying.isNew()){
+        if (wiseSaying.isNew()) {
             int newId = getLastId() + 1;
             wiseSaying.setId(newId);
             setLastId(newId);
         }
-        Map<String,Object> wiseSayingMap = wiseSaying.toMap();
+
+        Map<String, Object> wiseSayingMap = wiseSaying.toMap();
         String wiseSayingJsonStr = Util.file.json.toString(wiseSayingMap);
         Util.file.set(getEntityFilePath(wiseSaying), wiseSayingJsonStr);
     }
 
+    private void setLastId(int newId) {
+        Util.file.set(getLastIdFilePath(), newId);
+    }
+
+    private int getLastId() {
+        return Util.file.getAsInt(getLastIdFilePath(), 0);
+    }
+
     public Optional<WiseSaying> findById(int id) {
-        String wiseSayingJsonStr = Util.file.get(getEntityFilePath(id),"");
+        String wiseSayingJsonStr = Util.file.get(getEntityFilePath(id), "");
 
-        if(wiseSayingJsonStr.isBlank()) return Optional.empty();
+        if (wiseSayingJsonStr.isBlank()) return Optional.empty();
 
-        Map<String,Object> wiseSayingMap = Util.file.json.toMap(wiseSayingJsonStr);
+        Map<String, Object> wiseSayingMap = Util.file.json.toMap(wiseSayingJsonStr);
+
         return Optional.of(new WiseSaying(wiseSayingMap));
     }
 
@@ -67,27 +68,18 @@ public class WiseSayingFileRepository {
 
     public Page<WiseSaying> findForList(Pageable pageable) {
         List<WiseSaying> filtered = findAll();
-        int totalCount = filtered.size();
-
-        List<WiseSaying> content = filtered
-                .stream()
-                .skip(pageable.getSkipCount())
-                .limit(pageable.getPageSize())
-                .toList();
-
-        return new Page<>(
-                totalCount,
-                pageable.getPageNo(),
-                pageable.getPageSize(),
-                 content
-        );
+        return createPage(filtered, pageable);
     }
 
     public Page<WiseSaying> findForListByContentContaining(String keyword, Pageable pageable) {
         List<WiseSaying> filtered = findByContentContaining(keyword);
-        int totalCount = filtered.size();
+        return createPage(filtered, pageable);
+    }
 
-        List<WiseSaying> content = filtered
+    private Page<WiseSaying> createPage(List<WiseSaying> wiseSayings, Pageable pageable) {
+        int totalCount = wiseSayings.size();
+
+        List<WiseSaying> content = wiseSayings
                 .stream()
                 .skip(pageable.getSkipCount())
                 .limit(pageable.getPageSize())
@@ -102,27 +94,25 @@ public class WiseSayingFileRepository {
     }
 
     private List<WiseSaying> findAll() {
-        return Util.file.walkRegularFiles(
-                getTableDirPath(),
-                "\\d+\\.json"
-        ).map(path -> Util.file.get(path.toString(), ""))
-                .map(Util.file.json::toMap)
-                .map(WiseSaying::new)
+        return loadAllWiseSayings()
                 .sorted(Comparator.comparingInt(WiseSaying::getId).reversed())
                 .toList();
     }
 
     private List<WiseSaying> findByContentContaining(String keyword) {
-        return Util.file.walkRegularFiles(
-                        getTableDirPath(),
-                        "\\d+\\.json"
-                ).map(path -> Util.file.get(path.toString(), ""))
-                .map(Util.file.json::toMap)
-                .map(WiseSaying::new)
-                .filter(w->w.getContent().contains(keyword))
+        return loadAllWiseSayings()
+                .filter(w -> w.getContent().contains(keyword))
                 .sorted(Comparator.comparingInt(WiseSaying::getId).reversed())
                 .toList();
     }
 
-
+    private Stream<WiseSaying> loadAllWiseSayings() {
+        return Util.file.walkRegularFiles(
+                        getTableDirPath(),
+                        "\\d+\\.json"
+                )
+                .map(path -> Util.file.get(path.toString(), ""))
+                .map(Util.file.json::toMap)
+                .map(WiseSaying::new);
+    }
 }
