@@ -77,6 +77,18 @@ public class WiseSayingFileRepository {
         );
     }
 
+    public Page<WiseSaying> findForListByContentContaining(String keyword, Pageable pageable) {
+        List<WiseSaying> content = findByContentContaining(keyword);
+        int totalCount = content.size();
+
+        return new Page<>(
+                totalCount,
+                pageable.getPageNo(),
+                pageable.getPageSize(),
+                content
+        );
+    }
+
     private List<WiseSaying> findAll() {
         return Util.file.walkRegularFiles(
                 getTableDirPath(),
@@ -87,4 +99,10 @@ public class WiseSayingFileRepository {
                 .sorted(Comparator.comparingInt(WiseSaying::getId).reversed())
                 .toList();
     }
+
+    private List<WiseSaying> findByContentContaining(String keyword) {
+
+    }
+
+
 }
