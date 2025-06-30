@@ -1,11 +1,14 @@
 package com.back.standard.util;
 
+import lombok.SneakyThrows;
+
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class Util {
     public static file.json json;
@@ -110,6 +113,19 @@ public class Util {
 
         public static boolean rmdir(String dirPath) {
             return delete(dirPath);
+        }
+
+        @SneakyThrows
+        public static Stream<Path> walkRegularFiles(String dirPath, String fileNameRegex){
+            try{
+                return Files.walk(Path.of(dirPath))
+                        .filter(Files::isRegularFile)
+                        .filter(path -> path.getFileName().toString().matches(fileNameRegex));
+            } catch (NoSuchFileException e ){
+                return Stream.empty();
+            } catch (IOException e ){
+                return Stream.empty();
+            }
         }
 
         public static class json {
