@@ -6,6 +6,32 @@ import com.back.standard.util.Util;
 import java.util.Map;
 
 public class WiseSayingFileRepository {
+
+    public String getTableDirPath() {
+        return "db/wiseSaying";
+    }
+
+    public String getEntityFilePath(WiseSaying wiseSaying){
+        return getTableDirPath() + "/%d.json".formatted(wiseSaying.getId());
+    }
+
+    public String getEntityFilePath(int id){
+        return getTableDirPath() + "/%d.json".formatted(id);
+    }
+
+    public String getLastIdFilePath() {
+        return getTableDirPath() + "/lastId.txt";
+    }
+
+    private void setLastId(int newId) {
+        Util.file.set(getLastIdFilePath(), newId);
+    }
+
+
+    private int getLastId() {
+        return Util.file.getAsInt(getLastIdFilePath(),0);
+    }
+
     public void save(WiseSaying wiseSaying) {
         if (wiseSaying.isNew()){
             int newId = getLastId() + 1;
@@ -14,20 +40,11 @@ public class WiseSayingFileRepository {
         }
         Map<String,Object> wiseSayingMap = wiseSaying.toMap();
         String wiseSayingJsonStr = Util.json.toString(wiseSayingMap);
-        Util.file.set("db/wiseSaying/%d.json".formatted(wiseSaying.getId()), wiseSayingJsonStr);
-    }
-
-    private void setLastId(int newId) {
-        Util.file.set("db/wiseSaying/lastId.txt", newId);
-    }
-
-
-    private int getLastId() {
-        return Util.file.getAsInt("db/wiseSaying/lastId.txt",0);
+        Util.file.set(getEntityFilePath(wiseSaying), wiseSayingJsonStr);
     }
 
     public WiseSaying findById(int id) {
-        String wiseSayingJsonStr = Util.file.get("db/wiseSaying/%d.json".formatted(id),"");
+        String wiseSayingJsonStr = Util.file.get(getEntityFilePath(id),"");
 
         if(wiseSayingJsonStr.isBlank()) return null;
 
@@ -36,7 +53,10 @@ public class WiseSayingFileRepository {
     }
 
     public boolean delete(WiseSaying wiseSaying) {
-        String filePath ="db/wiseSaying/%d.json".formatted(wiseSaying.getId());
-        return Util.file.delete(filePath);
+        return Util.file.delete(getEntityFilePath(wiseSaying));
+    }
+
+    public void clear() {
+        Util.file.rmdir(getTableDirPath());
     }
 }

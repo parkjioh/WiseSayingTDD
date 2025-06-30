@@ -54,7 +54,7 @@ public class WiseSayingController {
             System.out.printf("%d / %s / %s\n", wiseSaying.getId(), wiseSaying.getAuthor(), wiseSaying.getContent());
         }
 
-        System.out.println("페이지 : ");
+        System.out.print("페이지 : ");
         String pageMenu = IntStream.rangeClosed(1,wiseSayingPage.getTotalPages())
                 .mapToObj(i -> i == wiseSayingPage.getPageNo() ? "[" + i + "]" : String.valueOf(i))
                 .collect(Collectors.joining(" / "))

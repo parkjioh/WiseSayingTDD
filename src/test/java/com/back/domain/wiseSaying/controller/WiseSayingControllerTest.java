@@ -302,8 +302,8 @@ public class WiseSayingControllerTest {
                 .doesNotContain("4 / 작가미상 4 / 명언 4")
                 .doesNotContain("3 / 작가미상 3 / 명언 3")
                 .doesNotContain("2 / 작가미상 2 / 명언 2")
-                .doesNotContain("1 / 작가미상 1 / 명언 1")
-                .contains("페이지 : [1] ");
+                .contains("1 / 작가미상 1 / 명언 1")
+                .contains("페이지 : [1]");
 
     }
 
