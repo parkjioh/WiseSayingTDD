@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WiseSayingControllerTest {
+
     @Test
     @DisplayName("등록")
     void t1() {
