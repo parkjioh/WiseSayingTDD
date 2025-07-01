@@ -20,4 +20,6 @@ public interface WiseSayingRepository {
     Page<WiseSaying> findforListByAuthorContaining(String keyword, Pageable pageable);
 
     Page<WiseSaying> findforListByContentContainingOrAuthorContaining(String keyword1, String keyword2, Pageable pageable);
+
+    default String archive(){ return null; };
 }
