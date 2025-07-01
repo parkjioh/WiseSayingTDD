@@ -25,8 +25,7 @@ public class WiseSayingMemoryRepository implements WiseSayingRepository {
     public Page<WiseSaying> findforList(Pageable pageable) {
         int totalCount = wiseSayings.size();
 
-        List<WiseSaying> content = wiseSayings
-                .reversed()
+        List<WiseSaying> content = findAll()
                 .stream()
                 .skip(pageable.getSkipCount())
                 .limit(pageable.getPageSize())
@@ -56,8 +55,7 @@ public class WiseSayingMemoryRepository implements WiseSayingRepository {
     }
 
     public Page<WiseSaying> findforListByContentContaining(String keyword, Pageable pageable) {
-        List<WiseSaying> filtered = wiseSayings
-                .reversed()
+        List<WiseSaying> filtered =findAll()
                 .stream()
                 .filter(
                         w -> w.getContent().contains(keyword)
@@ -76,8 +74,7 @@ public class WiseSayingMemoryRepository implements WiseSayingRepository {
     }
 
     public Page<WiseSaying> findforListByAuthorContaining(String keyword, Pageable pageable) {
-        List<WiseSaying> filtered = wiseSayings
-                .reversed()
+        List<WiseSaying> filtered = findAll()
                 .stream()
                 .filter(
                         w -> w.getAuthor().contains(keyword)
@@ -96,8 +93,7 @@ public class WiseSayingMemoryRepository implements WiseSayingRepository {
     }
 
     public Page<WiseSaying> findforListByContentContainingOrAuthorContaining(String keyword1, String keyword2, Pageable pageable) {
-        List<WiseSaying> filtered = wiseSayings
-                .reversed()
+        List<WiseSaying> filtered =findAll()
                 .stream()
                 .filter(
                         w -> w.getContent().contains(keyword1) || w.getAuthor().contains(keyword2)
@@ -117,6 +113,6 @@ public class WiseSayingMemoryRepository implements WiseSayingRepository {
 
     @Override
     public List<WiseSaying> findAll() {
-        return wiseSayings;
+        return wiseSayings.reversed();
     }
 }
